@@ -137,6 +137,43 @@ public class WordCountScript : MonoBehaviour
             Debug.LogFormat("[Word Count #{0}] Your word is {1}", _moduleId, answer);
         }
     }
+    //Twitch Plays.
+    public string TwitchHelpMessage = "Submit the correct answer with !{0} submit <answer>.";
+
+    IEnumerator ProcessTwitchCommand(string command)
+    {
+        command = command.Trim().ToUpperInvariant();
+        Match m = Regex.Match(command, @"^(?:SUBMIT) +([A-Z0-9]+)$");
+        if (!m.Success)
+            yield break;
+        yield return null;
+        foreach (char cmd in m.Groups[1].Value) //execute;
+        {
+            if (!keyboardLayout.Contains(cmd))
+            {
+                Keyage[26].OnInteract();
+                yield return new WaitForSeconds(.1f);
+            }
+            Keyage[keyboardLayout.IndexOf(cmd)].OnInteract();
+            yield return new WaitForSeconds(.1f);
+        }
+        Submit.OnInteract();
+    }
+
+    IEnumerator TwitchHandleForcedSolve()
+    {
+        foreach (char ans in answer) //execute;
+        {
+            if (!keyboardLayout.Contains(ans))
+            {
+                Keyage[26].OnInteract();
+                yield return new WaitForSeconds(.1f);
+            }
+            Keyage[keyboardLayout.IndexOf(ans)].OnInteract();
+            yield return new WaitForSeconds(.1f);
+        }
+        Submit.OnInteract();
+    }
 
     private static readonly string[][] AllTexts = new string[][]
     {
