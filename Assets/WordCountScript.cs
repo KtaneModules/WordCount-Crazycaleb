@@ -47,7 +47,7 @@ public class WordCountScript : MonoBehaviour
         Clear.OnInteract += delegate () { clearPress(Clear); return false; };
 
         DisplayNumber = Rnd.Range(1,1000);      
-        Debug.Log("The display number is: " + DisplayNumber);
+        Debug.LogFormat("[Word Count #{0}] The number on the display is {1}",  _moduleId, DisplayNumber);
         Display.text = DisplayNumber.ToString();
         Solution();
     }
@@ -73,12 +73,13 @@ public class WordCountScript : MonoBehaviour
             Audio.PlaySoundAtTransform("solveSound", transform);
             SubmitDisplay.text = "";
             Display.text = "GG!";
+            Debug.LogFormat("[Word Count #{0}] {1} was correct!", _moduleId, answer);
         }
         else
         {
             Module.HandleStrike();
             Audio.PlaySoundAtTransform("strikeSound", transform);
-            Debug.LogFormat("[Word Count #{0}] Incorrect answer: {1}", _moduleId, Display.text);
+            Debug.LogFormat("[Word Count #{0}] {1}", _moduleId, input + " was incorrect.");
             input = "";
             SubmitDisplay.text = "";
             Display.text = DisplayNumber.ToString();
@@ -128,12 +129,12 @@ public class WordCountScript : MonoBehaviour
         if (BombInfo.GetSerialNumberLetters().Any(ch => "AEIOU".Contains(ch)))
         {
             answer = AllTexts[writing][DisplayNumber - 1].ToUpper();
-            Debug.Log("The answer is: " + answer);
+            Debug.LogFormat("[Word Count #{0}] Your word is {1}", _moduleId, answer);
         }
         else 
         {
             answer = AllTexts[writing + 10][DisplayNumber - 1].ToUpper();
-            Debug.Log("The answer is: " + answer);
+            Debug.LogFormat("[Word Count #{0}] Your word is {1}", _moduleId, answer);
         }
     }
 
