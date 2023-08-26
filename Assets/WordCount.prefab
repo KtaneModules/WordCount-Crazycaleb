@@ -8969,6 +8969,7 @@ MonoBehaviour:
   - {fileID: 102540409995190320}
   - {fileID: 102467110479575984}
   - {fileID: 102680186085081866}
+  Texts: {fileID: 4900000, guid: 5996fd1fd43753e498c286c46975d6f9, type: 3}
   Keyage:
   - {fileID: 114707645533487476}
   - {fileID: 114195727915386766}
@@ -8999,6 +9000,7 @@ MonoBehaviour:
   - {fileID: 114156882808483240}
   Submit: {fileID: 114756301111661230}
   Clear: {fileID: 114268969567399710}
+  TwitchHelpMessage: Submit the correct answer with !{0} submit <answer>.
 --- !u!114 &114652138137096846
 MonoBehaviour:
   m_ObjectHideFlags: 1
