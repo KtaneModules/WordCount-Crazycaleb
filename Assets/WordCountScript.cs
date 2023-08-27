@@ -55,9 +55,6 @@ public class WordCountScript : MonoBehaviour
 
         Clear.OnInteract += delegate () { clearPress(Clear); return false; };
 
-        DisplayNumber = Rnd.Range(1, 1000);
-        Debug.LogFormat("[Word Count #{0}] The number on the display is {1}", _moduleId, DisplayNumber);
-        Display.text = DisplayNumber.ToString();
         Solution();
     }
 
@@ -145,15 +142,21 @@ public class WordCountScript : MonoBehaviour
     {
         int writing = (BombInfo.GetSerialNumberLetters().Any(ch => "AEIOU".Contains(ch)) ? 0 : 10) + (BombInfo.GetSerialNumber()[5] - '0');
         Debug.LogFormat("[Word Count #{0}] The selected writing is titled {1}", _moduleId, allWritings[writing].textTitle);
+
+        DisplayNumber = Rnd.Range(1, filterWriting(writing).Count());
+        Display.text = DisplayNumber.ToString();
+        Debug.LogFormat("[Word Count #{0}] The number on the display is {1}", _moduleId, DisplayNumber);
+
         answer = filterWriting(writing)[DisplayNumber - 1].ToUpper();
         Debug.LogFormat("[Word Count #{0}] Your word is {1}", _moduleId, answer);
-        /* debug code
+
+        /* DEBUG
         string test = "";
         string counter = "";
 
         for (int i = 0; i < 20; i++)
         {
-            string[] writing = filterWriting(i);
+            string[] writingDebug = filterWriting(i);
             counter = "";
             // test += "\n Text " + i + ": \n";
             // foreach (string s in writing) { test += s + "\n"; };
@@ -162,13 +165,13 @@ public class WordCountScript : MonoBehaviour
             {
                 if (j == 1000)
                 {
-                    int lastPos = Math.Min(j, writing.Length);
-                    counter += " P" + lastPos + ": " + writing[lastPos - 2] + " \"" + writing[lastPos - 1] + "\"";
+                    int lastPos = Math.Min(j, writingDebug.Length);
+                    counter += " P" + lastPos + ": " + writingDebug[lastPos - 2] + " \"" + writingDebug[lastPos - 1] + "\"";
                 }
                 else
-                    counter += " P" + j + ": " + writing[j - 2] + " \"" + writing[j - 1] + "\" " + writing[j] + "\n";
+                    counter += " P" + j + ": " + writingDebug[j - 2] + " \"" + writingDebug[j - 1] + "\" " + writingDebug[j] + "\n";
             }            
-            test += "Text " + i + " (Length " + writing.Length + "): \n" + counter + "\n";
+            test += "Text " + i + " (Length " + writingDebug.Length + "): \n" + counter + "\n";
         }
         StreamWriter sw = new StreamWriter("D:\\Test.txt");
         sw.WriteLine(test);
@@ -176,7 +179,7 @@ public class WordCountScript : MonoBehaviour
         */
     }
     //Twitch Plays.
-    public string TwitchHelpMessage = "Submit the correct answer with !{0} submit <answer>.";
+    string TwitchHelpMessage = "Submit the correct answer with !{0} submit <answer>.";
 
     IEnumerator ProcessTwitchCommand(string command)
     {
